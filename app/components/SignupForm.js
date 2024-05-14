@@ -14,28 +14,30 @@ const SignupForm = ({ onSubmit }) => {
       })}
       onSubmit={onSubmit}
     >
-      <Form>
-        <div>
-          <label>Name:</label>
-          <Field type="text" name="name" style={{ color: 'black' }} />
-          <ErrorMessage name="name" />
+      <Form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Name:</label>
+          <Field className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="name" />
+          <ErrorMessage name="name" component="p" className="text-red-500 text-xs italic" />
         </div>
-        <div>
-          <label>Email:</label>
-          <Field type="email" name="email" style={{ color: 'black' }} />
-          <ErrorMessage name="email" />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Email:</label>
+          <Field className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="email" name="email" />
+          <ErrorMessage name="email" component="p" className="text-red-500 text-xs italic" />
         </div>
-        <div>
-          <label>Phone Number:</label>
-          <Field type="text" name="phone" style={{ color: 'black' }} />
-          <ErrorMessage name="phone" />
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">Phone Number:</label>
+          <Field className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="phone" />
+          <ErrorMessage name="phone" component="p" className="text-red-500 text-xs italic" />
         </div>
-        <div>
-          <label>Password:</label>
-          <Field type="password" name="password" style={{ color: 'black' }} />
-          <ErrorMessage name="password" />
+        <div className="mb-6">
+          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Password:</label>
+          <Field className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" name="password" />
+          <ErrorMessage name="password" component="p" className="text-red-500 text-xs italic" />
         </div>
-        <button type="submit">Sign Up</button>
+        <div className="flex items-center justify-between">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Sign Up</button>
+        </div>
       </Form>
     </Formik>
   );

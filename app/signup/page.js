@@ -21,9 +21,9 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <h1>Sign Up</h1>
-      {signupError && <p style={{ color: 'red' }}>{signupError}</p>}
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Sign Up</h1>
+      {signupError && <p className="text-red-500 mb-4">{signupError}</p>}
       <SignupForm onSubmit={handleSubmit} />
     </div>
   );
