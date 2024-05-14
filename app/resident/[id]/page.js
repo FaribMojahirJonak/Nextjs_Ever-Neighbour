@@ -10,6 +10,7 @@ const ResidentPage = ({ params }) => {
     const [resident, setResident] = useState({});
     const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({ name: '', phone: '', email: '' });
+    const [errors, setErrors] = useState({});
 
     const fetchResident = async () => {
         try {
@@ -33,9 +34,42 @@ const ResidentPage = ({ params }) => {
             ...formData,
             [name]: value
         });
+        // Clear errors when input changes
+        setErrors({
+            ...errors,
+            [name]: ''
+        });
+    };
+
+    const validateForm = () => {
+        let valid = true;
+        const newErrors = {};
+
+        if (!formData.name.trim()) {
+            newErrors.name = 'Name is required';
+            valid = false;
+        }
+
+        if (!formData.phone.trim()) {
+            newErrors.phone = 'Phone number is required';
+            valid = false;
+        }
+
+        if (!formData.email.trim()) {
+            newErrors.email = 'Email is required';
+            valid = false;
+        } else if (!/\S+@\S+\.com$/.test(formData.email)) {
+            newErrors.email = 'Email is invalid';
+            valid = false;
+        }
+
+        setErrors(newErrors);
+        return valid;
     };
 
     const handleUpdate = async () => {
+        if (!validateForm()) return;
+
         try {
             await axios.put(`http://localhost:3000/admin/updateresident/${id}`, formData);
             fetchResident(); // Refresh resident data after update
@@ -75,8 +109,9 @@ const ResidentPage = ({ params }) => {
                                 id="name"
                                 value={formData.name}
                                 onChange={handleChange}
-                                className="mt-1 p-2 block w-full border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black"
+                                className={`mt-1 p-2 block w-full border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black ${errors.name && 'border-red-500'}`}
                             />
+                            {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                         </div>
                         <div className="mb-4">
                             <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number:</label>
@@ -86,8 +121,9 @@ const ResidentPage = ({ params }) => {
                                 id="phone"
                                 value={formData.phone}
                                 onChange={handleChange}
-                                className="mt-1 p-2 block w-full border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black"
+                                className={`mt-1 p-2 block w-full border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black ${errors.phone && 'border-red-500'}`}
                             />
+                            {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
                         </div>
                         <div className="mb-4">
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email:</label>
@@ -97,8 +133,9 @@ const ResidentPage = ({ params }) => {
                                 id="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                className="mt-1 p-2 block w-full border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black"
+                                className={`mt-1 p-2 block w-full border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black ${errors.email && 'border-red-500'}`}
                             />
+                            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                         </div>
                     </form>
                     <button onClick={handleUpdate} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-block mr-2">Update</button>
