@@ -12,10 +12,10 @@ const BlogsPage = () => {
         try {
             const response = await axios.get("http://localhost:3000/admin/viewblogs");
             setBlogs(response.data);
-            setLoading(false); // Mark loading as false after data is fetched
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching blogs:', error);
-            setLoading(false); // Mark loading as false in case of error too
+            setLoading(false);
         }
     };
 
@@ -35,8 +35,8 @@ const BlogsPage = () => {
                 <ul className='mt-6'>
                     {blogs.map(blog => (
                         <li key={blog.id}>
-                            <p>{blog.title}</p>
-                            <p>{blog.body}</p>
+                            <p><strong>Title:</strong> {blog.title}</p>
+                            <p><strong>Body:</strong> {blog.body}</p>
                         </li>
                     ))}
                 </ul>
