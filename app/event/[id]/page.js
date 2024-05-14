@@ -5,9 +5,8 @@ import axios from 'axios';
 import Image from 'next/image';
 
 const EventDetailPage = ({ params }) => {
-    const { id } = params; // Get the eventId from the route parameters
+    const { id } = params;
     const [event, setEvent] = useState({});
-    console.log(id);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -28,21 +27,24 @@ const EventDetailPage = ({ params }) => {
     }, [id]);
 
     return (
-        <div>
+        <div className="max-w-4xl px-4 py-8"> {/* Removed mx-auto */}
             {loading ? (
-                <p>Loading event details...</p>
+                <p className="text-gray-600 text-lg">Loading event details...</p>
             ) : event ? (
                 <div>
-                    <h1>{event.eventName}</h1>
-                    <Image
-                        src={`http://localhost:3000/uploads/${event.filename}`}
-                        alt={event.eventName}
-                        width={500} // Specify the width of the image
-                        height={300} // Specify the height of the image
-                    />
+                    <h1 className="text-3xl font-bold mb-4">{event.eventName}</h1>
+                    <div className="max-w-lg mx-auto">
+                        <Image
+                            src={`http://localhost:3000/uploads/${event.filename}`}
+                            alt={event.eventName}
+                            width={500}
+                            height={300}
+                            className="rounded-lg"
+                        />
+                    </div>
                 </div>
             ) : (
-                <p>Event not found!</p>
+                <p className="text-red-500 text-lg">Event not found!</p>
             )}
         </div>
     );

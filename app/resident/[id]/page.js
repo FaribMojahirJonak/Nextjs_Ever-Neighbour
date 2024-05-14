@@ -1,4 +1,5 @@
 "use client"
+
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -59,28 +60,49 @@ const ResidentPage = ({ params }) => {
     };
 
     return (
-        <div>
-            <h1>Resident Details</h1>
+        <div className="container mx-auto p-4">
+            <h1 className="text-3xl font-bold mb-4">Resident Details</h1>
             {loading ? (
-                <p>Getting resident please wait!</p>
+                <p className="text-gray-700">Getting resident please wait!</p>
             ) : (
                 <div>
-                    <form>
-                        <label>
-                            Name:
-                            <input type="text" name="name" value={formData.name} onChange={handleChange} style={{ color: 'black' }} />
-                        </label>
-                        <label>
-                            Phone Number:
-                            <input type="text" name="phone" value={formData.phone} onChange={handleChange} style={{ color: 'black' }} />
-                        </label>
-                        <label>
-                            Email:
-                            <input type="email" name="email" value={formData.email} onChange={handleChange} style={{ color: 'black' }} />
-                        </label>
+                    <form className="mb-4">
+                        <div className="mb-4">
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                className="mt-1 p-2 block w-full border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number:</label>
+                            <input
+                                type="text"
+                                name="phone"
+                                id="phone"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                className="mt-1 p-2 block w-full border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email:</label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="mt-1 p-2 block w-full border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black"
+                            />
+                        </div>
                     </form>
-                    <button onClick={handleUpdate}>Update</button>
-                    <button onClick={handleDelete}>Delete</button>
+                    <button onClick={handleUpdate} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-block mr-2">Update</button>
+                    <button onClick={handleDelete} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded inline-block">Delete</button>
                 </div>
             )}
         </div>

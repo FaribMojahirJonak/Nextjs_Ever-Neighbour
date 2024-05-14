@@ -12,10 +12,10 @@ const EventsPage = () => {
         try {
             const response = await axios.get("http://localhost:3000/admin/viewevents");
             setEvents(response.data);
-            setLoading(false); // Mark loading as false after data is fetched
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching events:', error);
-            setLoading(false); // Mark loading as false in case of error too
+            setLoading(false);
         }
     };
 
@@ -24,18 +24,22 @@ const EventsPage = () => {
     }, []);
 
     return (
-        <div>
-            <h1>Events</h1>
-            <Link href="/event/add-event">
+        <div className="container mx-auto p-4">
+            <h1 className="text-3xl font-bold mb-6">Events</h1>
+            <Link href="/event/add-event" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-block mb-6">
                 Add Event
             </Link>
             {loading ? (
-                <p>Loading events please wait!</p>
+                <p className="text-gray-700">Loading events, please wait...</p>
             ) : (
-                <ul className='mt-6'>
+                <ul className="divide-y divide-gray-200">
                     {events.map(event => (
-                        <li key={event.id}>
-                            <Link href={`/event/${event.id}`}>{event.eventName}</Link>
+                        <li key={event.id} className="py-2"> {/* Reduced py-4 to py-2 */}
+                            <div className="bg-white shadow-md rounded-md p-4 mb-2"> {/* Reduced p-6 to p-4 and mb-4 to mb-2 */}
+                                <Link href={`/event/${event.id}`} className="text-blue-500 hover:underline text-lg">
+                                    {event.eventName}
+                                </Link>
+                            </div>
                         </li>
                     ))}
                 </ul>

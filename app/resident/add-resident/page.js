@@ -32,26 +32,26 @@ const AddResidentPage = () => {
     };
 
     return (
-        <div>
-            <h1>Add Resident</h1>
+        <div className="container mx-auto p-4">
+            <h1 className="text-3xl font-bold mb-4">Add Resident</h1>
             <form onSubmit={handleSubmit}>
-                <label>
+                <label className="block mb-2">
                     Name:
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} style={{ color: 'black' }} required />
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} className="mt-1 p-2 block w-full border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black" required />
                 </label>
-                <label>
+                <label className="block mb-2">
                     Email:
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} style={{ color: 'black' }} required />
+                    <input type="email" name="email" value={formData.email} onChange={handleChange} className="mt-1 p-2 block w-full border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black" required />
                 </label>
-                <label>
+                <label className="block mb-2">
                     Password:
-                    <input type="password" name="password" value={formData.password} onChange={handleChange} style={{ color: 'black' }} required />
+                    <input type="password" name="password" value={formData.password} onChange={handleChange} className="mt-1 p-2 block w-full border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black" required />
                 </label>
-                <label>
+                <label className="block mb-2">
                     Phone:
-                    <input type="text" name="phone" value={formData.phone} onChange={handleChange} style={{ color: 'black' }} required />
+                    <input type="text" name="phone" value={formData.phone} onChange={handleChange} className="mt-1 p-2 block w-full border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-black" required />
                 </label>
-                <button type="submit">Add Resident</button>
+                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-block">Add Resident</button>
             </form>
         </div>
     );

@@ -24,18 +24,20 @@ const ResidentsPage = () => {
     }, []);
 
     return (
-        <div>
-            <h1>Residents</h1>
-            <Link href="/resident/add-resident">
+        <div className="container mx-auto p-4">
+            <h1 className="text-3xl font-bold mb-4">Residents</h1>
+            <Link href="/resident/add-resident" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-block mb-4">
                 Add Resident
             </Link>
             {loading ? (
-                <p>Getting all residents please wait!</p>
+                <p className="text-gray-700">Getting all residents please wait!</p>
             ) : (
-                <ul className='mt-6'>
+                <ul className="divide-y divide-gray-200">
                     {residents.map(resident => (
-                        <li key={resident.id}>
-                            <Link href={`/resident/${resident.id}`}>{resident.name}</Link>
+                        <li key={resident.id} className="py-3">
+                            <Link href={`/resident/${resident.id}`} className="block hover:bg-gray-50 rounded-md px-4 py-2">
+                                <span className="text-blue-500 hover:underline">{resident.name}</span>
+                            </Link>
                         </li>
                     ))}
                 </ul>
