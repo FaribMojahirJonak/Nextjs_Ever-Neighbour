@@ -19,7 +19,6 @@ const AddResidentPage = () => {
             ...formData,
             [name]: value
         });
-        // Clear errors when input changes
         setErrors({
             ...errors,
             [name]: ''
@@ -63,10 +62,10 @@ const AddResidentPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            console.log('Form data:', formData); // Add this line for debugging
+            console.log('Form data:', formData); 
             try {
                 await axios.post('http://localhost:3000/admin/addresident', formData);
-                router.push('/resident'); // Redirect to residents page after adding resident
+                router.push('/resident'); 
             } catch (error) {
                 console.error('Error adding resident:', error);
             }

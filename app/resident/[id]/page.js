@@ -34,7 +34,6 @@ const ResidentPage = ({ params }) => {
             ...formData,
             [name]: value
         });
-        // Clear errors when input changes
         setErrors({
             ...errors,
             [name]: ''
@@ -72,21 +71,20 @@ const ResidentPage = ({ params }) => {
 
         try {
             await axios.put(`http://localhost:3000/admin/updateresident/${id}`, formData);
-            fetchResident(); // Refresh resident data after update
-            router.push('/resident'); // Navigate back to all residents page
+            fetchResident(); 
+            router.push('/resident'); 
         } catch (error) {
             console.error('Error updating resident:', error);
         }
     };
 
     const handleDelete = async () => {
-        // Display confirmation dialog
         const confirmDelete = window.confirm("Are you sure you want to delete this resident?");
         
         if (confirmDelete) {
             try {
                 await axios.delete(`http://localhost:3000/admin/deleteresident/${id}`);
-                router.push('/resident'); // Navigate back to all residents page
+                router.push('/resident'); 
             } catch (error) {
                 console.error('Error deleting resident:', error);
             }

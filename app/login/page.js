@@ -48,11 +48,8 @@ const Login = () => {
 
     try {
       const response = await axios.post('http://localhost:3000/admin/login', credentials);
-      // Assuming the server responds with a token upon successful login
       const token = response.data.token;
-      // Store token in localStorage or session storage
       localStorage.setItem('token', token);
-      // Redirect to another page upon successful login
       router.push('/');
     } catch (error) {
       setErrors({ general: 'Invalid username or password. Please try again.' });
