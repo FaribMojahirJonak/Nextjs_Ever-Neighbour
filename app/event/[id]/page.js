@@ -1,13 +1,14 @@
 "use client"
-
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation'; // Import useRouter
 
 const EventDetailPage = ({ params }) => {
     const { id } = params;
     const [event, setEvent] = useState({});
     const [loading, setLoading] = useState(true);
+    const router = useRouter(); // Initialize router
 
     useEffect(() => {
         const fetchEventDetails = async () => {
@@ -26,8 +27,21 @@ const EventDetailPage = ({ params }) => {
         }
     }, [id]);
 
+    const handleDelete = async () => {
+        const confirmation = window.confirm('Are you sure you want to delete this event?');
+        if (confirmation) {
+            try {
+                await axios.delete(`http://localhost:3000/admin/deleteevent/${id}`);
+                // After successful deletion, navigate to another page
+                router.push('/event'); // Example: Redirect to events page
+            } catch (error) {
+                console.error('Error deleting event:', error);
+            }
+        }
+    };
+
     return (
-        <div className="max-w-4xl px-4 py-8"> {/* Removed mx-auto */}
+        <div className="max-w-4xl px-4 py-8">
             {loading ? (
                 <p className="text-gray-600 text-lg">Loading event details...</p>
             ) : event ? (
@@ -42,6 +56,9 @@ const EventDetailPage = ({ params }) => {
                             className="rounded-lg"
                         />
                     </div>
+                    <button onClick={handleDelete} className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg">
+                        Delete Event
+                    </button>
                 </div>
             ) : (
                 <p className="text-red-500 text-lg">Event not found!</p>
