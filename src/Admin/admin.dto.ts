@@ -22,6 +22,13 @@ import {
   
     @Matches(/^[0-9]+$/, { message: 'Phone number must contain only numbers' })
     phone: string;
+
+    filename: string
+
+    @Optional()
+    adminId: string;
+    @Optional()
+    posts: any;
   }
   export class UserUpdateDTO {
     @IsNotEmpty()
@@ -56,4 +63,21 @@ import {
     @IsNotEmpty()
     @IsString()
     password: string;
+  }
+
+  export class AdminUpdateDTO {
+    @IsNotEmpty()
+    name: string;
+  
+    @IsNotEmpty()
+    @IsEmail({}, { message: 'Invalid email format' })
+    email: string;
+  
+    @IsNotEmpty()
+    @MinLength(4, { message: 'Password must be at least 4 characters long' })
+    password: string;
+  
+    @Matches(/^[0-9]+$/, { message: 'Phone number must contain only numbers' })
+    phone: string;
+  
   }

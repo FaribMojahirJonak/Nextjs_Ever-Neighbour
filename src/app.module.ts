@@ -10,6 +10,7 @@ import { BookModule } from './librarymanager/Book_Manager/book.module';
 import { ProductModule } from './product_manager/Products/Products.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { AuthModule } from './admin/auth/auth.module';
 // import { mailModule } from './Resident/Mail/mail.module';
 // import { LibraryModule } from './librarymanager/library/library.module';
 // import { BookModule } from './librarymanager/Book_Manager/book.module';
@@ -34,9 +35,9 @@ import { join } from 'path';
       rootPath: join(__dirname, '..', 'upload'), // Path to your upload directory
       serveRoot: '/uploads', // Base URL from which to serve the static files
     }),
-    BookModule,ProductModule,
+    BookModule,ProductModule,AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

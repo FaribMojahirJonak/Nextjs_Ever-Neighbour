@@ -18,6 +18,9 @@ export class AdminEntity {
   @Column()
   phone: string;
 
+  @Column()
+  filename: string;
+
   @OneToMany(() => AdminAnnouncedPostEntity, post => post.admin, { cascade: true })
   posts: AdminAnnouncedPostEntity[];
 }
