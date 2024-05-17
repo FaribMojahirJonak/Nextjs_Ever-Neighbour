@@ -34,11 +34,18 @@ const AddBlogPage = () => {
                 adminId: adminId
             };
 
-            await axios.post(`http://localhost:3000/admin/addpost/${adminId}`, postData);
+            const token = localStorage.getItem('token'); // Replace this with your actual bearer token
+
+            await axios.post(`http://localhost:3000/admin/addpost/${adminId}`, postData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             router.push('/blog'); // Redirect to blogs page after adding blog
         } catch (error) {
             console.error('Error adding blog:', error);
             setLoading(false);
+            router.push('../login');
         }
     };
 

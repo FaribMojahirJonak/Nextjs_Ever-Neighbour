@@ -27,19 +27,28 @@ const AddEventPage = () => {
             const formData = new FormData();
             formData.append('eventName', eventName);
             formData.append('myfile', image);
+            const token = localStorage.getItem('token');
+            console.log(token);
+            if (token) {
+                await axios.post('http://localhost:3000/admin/addevent', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setLoading(false);
+                setEventName('');
+                setImage(null);
+                router.push('/event'); 
+            } else {
+                router.push('../login');
+            }
 
-            await axios.post('http://localhost:3000/admin/addevent', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            setLoading(false);
-            setEventName('');
-            setImage(null);
-            router.push('/event'); // Redirect to the event page after adding event
+            
         } catch (error) {
             console.error('Error adding event:', error);
             setLoading(false);
+            router.push('/login');
         }
     };
 

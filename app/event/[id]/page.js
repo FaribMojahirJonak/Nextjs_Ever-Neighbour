@@ -13,12 +13,24 @@ const EventDetailPage = ({ params }) => {
     useEffect(() => {
         const fetchEventDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/admin/geteventbyid/${id}`);
-                setEvent(response.data);
-                setLoading(false);
+                const token = localStorage.getItem('token');
+                if (token) {
+                    const response = await axios.get(`http://localhost:3000/admin/geteventbyid/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    setEvent(response.data);
+                    setLoading(false);
+                } else {
+                    router.push('../login');
+                }
+
             } catch (error) {
                 console.error('Error fetching event details:', error);
                 setLoading(false);
+                router.push('../login');
+
             }
         };
 
@@ -31,11 +43,23 @@ const EventDetailPage = ({ params }) => {
         const confirmation = window.confirm('Are you sure you want to delete this event?');
         if (confirmation) {
             try {
-                await axios.delete(`http://localhost:3000/admin/deleteevent/${id}`);
-                // After successful deletion, navigate to another page
-                router.push('/event'); // Example: Redirect to events page
+                const token = localStorage.getItem('token');
+                if (token) {
+                    await axios.delete(`http://localhost:3000/admin/deleteevent/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    // After successful deletion, navigate to another page
+                    router.push('/event'); // Example: Redirect to events page
+                } else {
+                    router.push('../login');
+
+                }
+
             } catch (error) {
                 console.error('Error deleting event:', error);
+                router.push('../login');
             }
         }
     };

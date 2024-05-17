@@ -26,6 +26,8 @@ export default function RootLayout({ children }) {
                       <div className="ml-10 flex items-baseline space-x-4">
                         <Link href="/about" className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">About
                         </Link>
+                        <Link href="/dashboard" className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Dashboard
+                        </Link>
                         <Link href="/event" className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Events
                         </Link>
                         <Link href="/blog" className="hover:bg-gray-700 px-3 py-2 rounded-md text-sm font-medium">Blogs

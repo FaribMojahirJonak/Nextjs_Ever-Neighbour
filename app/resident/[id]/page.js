@@ -14,13 +14,25 @@ const ResidentPage = ({ params }) => {
 
     const fetchResident = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/admin/getresidentbyid/${id}`);
-            setResident(response.data || {});
-            setFormData(response.data || {});
-            setLoading(false);
+            const token = localStorage.getItem('token');
+            if (token) {
+                const response = await axios.get(`http://localhost:3000/admin/getresidentbyid/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setResident(response.data || {});
+                setFormData(response.data || {});
+                setLoading(false);
+            } else {
+                router.push('../login');
+            }
+            
         } catch (error) {
             console.error('Error fetching resident:', error);
             setLoading(false);
+            router.push('../login');
+
         }
     };
 
@@ -70,11 +82,23 @@ const ResidentPage = ({ params }) => {
         if (!validateForm()) return;
 
         try {
-            await axios.put(`http://localhost:3000/admin/updateresident/${id}`, formData);
-            fetchResident(); 
-            router.push('/resident'); 
+            const token = localStorage.getItem('token');
+            if(token) {
+                await axios.put(`http://localhost:3000/admin/updateresident/${id}`, formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                fetchResident(); 
+                router.push('/resident'); 
+            } else {
+                router.push('../login');
+            }
+            
         } catch (error) {
             console.error('Error updating resident:', error);
+            router.push('../login');
+
         }
     };
 
@@ -83,10 +107,22 @@ const ResidentPage = ({ params }) => {
         
         if (confirmDelete) {
             try {
-                await axios.delete(`http://localhost:3000/admin/deleteresident/${id}`);
-                router.push('/resident'); 
+                const token = localStorage.getItem('token');
+                if(token) {
+                    await axios.delete(`http://localhost:3000/admin/deleteresident/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    router.push('/resident');
+                } else {
+                    router.push('../login');
+                }
+                 
             } catch (error) {
                 console.error('Error deleting resident:', error);
+                router.push('../login');
+
             }
         }
     };

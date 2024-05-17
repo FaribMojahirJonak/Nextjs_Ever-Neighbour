@@ -3,19 +3,32 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // Import useRouter from next/router
 
 const BlogsPage = () => {
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const router = useRouter(); // Initialize useRouter
 
     const fetchBlogs = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/admin/viewblogs");
-            setBlogs(response.data);
-            setLoading(false);
+            const token = localStorage.getItem('token');
+            if (token) {
+                const response = await axios.get(`http://localhost:3000/admin/viewblogs`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setBlogs(response.data); // Set form data with user data
+                setLoading(false);
+            } else {
+                router.push('/login'); // Redirect to login page if not logged in
+            }
+
         } catch (error) {
             console.error('Error fetching blogs:', error);
             setLoading(false);
+            router.push('/login');
         }
     };
 

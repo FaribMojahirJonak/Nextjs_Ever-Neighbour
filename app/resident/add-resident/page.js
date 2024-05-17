@@ -64,10 +64,22 @@ const AddResidentPage = () => {
         if (validateForm()) {
             console.log('Form data:', formData); 
             try {
-                await axios.post('http://localhost:3000/admin/addresident', formData);
-                router.push('/resident'); 
+                const token = localStorage.getItem('token');
+                if(token) {
+                    await axios.post('http://localhost:3000/admin/addresident', formData, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        }
+                    });
+                    router.push('/resident');
+
+                } else {
+                    router.push('/login')
+                }
+                 
             } catch (error) {
                 console.error('Error adding resident:', error);
+                router.push('../login');
             }
         }
     };

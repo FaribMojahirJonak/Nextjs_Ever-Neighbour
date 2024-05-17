@@ -1,80 +1,81 @@
 "use client"
 
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { Toaster, toast } from 'react-hot-toast';
 
-const Login = () => {
+export default function Signin() {
   const router = useRouter();
-  const [credentials, setCredentials] = useState({ email: '', password: '' });
-  const [errors, setErrors] = useState({});
-  
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCredentials({
-      ...credentials,
+    setFormData(prevState => ({
+      ...prevState,
       [name]: value
-    });
+    }));
   };
 
-  const validateForm = () => {
-    let valid = true;
-    const newErrors = {};
-
-    if (!credentials.email.trim()) {
-      newErrors.email = 'Email is required';
-      valid = false;
-    } else if (!/\S+@\S+\.\S+/.test(credentials.email)) {
-      newErrors.email = 'Invalid email format';
-      valid = false;
-    }
-
-    if (!credentials.password.trim()) {
-      newErrors.password = 'Password is required';
-      valid = false;
-    } else if (credentials.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters long';
-      valid = false;
-    }
-
-    setErrors(newErrors);
-    return valid;
-  };
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const isValid = validateForm();
-    if (!isValid) return;
+
+    if (!formData.email || !formData.password) {
+      alert('Please fill out all fields');
+      return;
+    }
 
     try {
-      const response = await axios.post('http://localhost:3000/admin/login', credentials);
-      const token = response.data.token;
-      localStorage.setItem('token', token);
-      router.push('/');
+      const response = await axios.post('http://localhost:3000/auth/login', formData);
+      const token = response.data;
+      // Save token to local storage
+      localStorage.setItem('token', token.access_token);
+      localStorage.setItem('email', formData.email);
+
+
+      toast.success('Sign in successful');
+      router.push('../dashboard');
     } catch (error) {
-      setErrors({ general: 'Invalid username or password. Please try again.' });
+      console.error('Error signing in:', error);
+      toast.error('Sign in failed. Please check your credentials.');
     }
   };
-  
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+  }, []);
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-4">Login</h1>
-      <form onSubmit={handleSubmit} className="max-w-md">
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
-          <input type="email" name="email" value={credentials.email} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-          {errors.email && <p className="text-red-500">{errors.email}</p>}
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <Toaster />
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign In</h2>
         </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password:</label>
-          <input type="password" name="password" value={credentials.password} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-          {errors.password && <p className="text-red-500">{errors.password}</p>}
-        </div>
-        {errors.general && <p className="text-red-500 mb-4">{errors.general}</p>}
-        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Login</button>
-      </form>
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <div className="rounded-md shadow-sm -space-y-px">
+            <div>
+              <label htmlFor="email" className="sr-only">Email address</label>
+              <input id="email" name="email" type="text" autoComplete="email" className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address" value={formData.email} onChange={handleChange} />
+            </div>
+            <div>
+              <label htmlFor="password" className="sr-only">Password</label>
+              <input id="password" name="password" type="password" autoComplete="current-password" className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password" value={formData.password} onChange={handleChange} />
+            </div>
+          </div>
+          <div>
+            <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Sign In
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
-};
-
-export default Login;
+}
